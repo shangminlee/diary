@@ -15,6 +15,7 @@ class DBColumns {
 }
 
 class DatabaseUtil {
+
   DatabaseUtil._privateConstructor();
 
   static final DatabaseUtil _instance = DatabaseUtil._privateConstructor();
@@ -30,8 +31,8 @@ class DatabaseUtil {
     // databaseFactory = databaseFactoryFfi;
     if (db == null || !db.isOpen) {
       db = await openDatabase('diary.db', version: 1,
-          onCreate: (Database db, int version) async {
-            await db.execute('''
+          onCreate: (Database database, int version) async {
+            await database.execute('''
               create table ${DBColumns.tableName} ( 
                 ${DBColumns.columnId} integer primary key autoincrement, 
                 ${DBColumns.columnTitle} text,
@@ -54,20 +55,20 @@ class DatabaseUtil {
   }
 
   /// 插入一条数据
-  Future<Diary> insert(Diary diary) async {
+  Future<DiaryEntity> insert(DiaryEntity diary) async {
     diary.id = await db.insert(DBColumns.tableName, diary.toMap());
     return diary;
   }
 
   /// 更新一条数据
-  Future<Diary> update(Diary diary) async {
+  Future<DiaryEntity> update(DiaryEntity diary) async {
     diary.id = await db.update(DBColumns.tableName, diary.toMap(),
         where: '${DBColumns.columnId} = ?', whereArgs: [diary.id]);
     return diary;
   }
 
   /// 删除一条数据
-  Future delete(Diary diary) async {
+  Future delete(DiaryEntity diary) async {
     await db.delete(DBColumns.tableName,
         where: '${DBColumns.columnId} = ?', whereArgs: [diary.id]);
   }
@@ -110,7 +111,7 @@ class DatabaseUtil {
   }
 }
 
-class Diary {
+class DiaryEntity {
   late int id;
   late String title;
   late String image;
@@ -120,9 +121,9 @@ class Diary {
   late Map emotion;
   late DateTime date;
 
-  Diary();
+  DiaryEntity();
 
-  Diary fromMap(Map<String, Object?> map) {
+  DiaryEntity fromMap(Map<String, Object?> map) {
     id = map[DBColumns.columnId] as int;
     title = map[DBColumns.columnTitle] as String;
     image = map[DBColumns.columnImage] as String;

@@ -29,7 +29,7 @@ class _ExploreAppPageState extends State<ExploreAllPage> {
   List<Map<String, Object?>> allDiaryRow = [];
 
   // 日志信息
-  List<Diary> allDiary = [];
+  List<DiaryEntity> allDiary = [];
 
   // 日记新增按钮
   Widget addNewDiaryButton() {
@@ -79,7 +79,7 @@ class _ExploreAppPageState extends State<ExploreAllPage> {
     // map 转换为实体
     if(allDiaryRow.isNotEmpty) {
       for (int i = 0; i < allDiaryRow.length; i++) {
-        allDiary.add(Diary().fromMap(allDiaryRow[i]));
+        allDiary.add(DiaryEntity().fromMap(allDiaryRow[i]));
       }
     }
     // 刷新整个页面

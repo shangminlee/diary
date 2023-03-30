@@ -10,7 +10,7 @@ class ItemSingleDiaryWidget extends StatefulWidget {
   const ItemSingleDiaryWidget({Key? key, required this.diary})
       : super(key: key);
 
-  final Diary diary;
+  final DiaryEntity diary;
 
   @override
   State<StatefulWidget> createState() => _ItemSingleDiaryWidgetState();

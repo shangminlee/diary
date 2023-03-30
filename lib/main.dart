@@ -1,5 +1,7 @@
 import 'package:diary/router/routes.dart';
+import 'package:diary/ui/app_configuration/app_configuration.dart';
 import 'package:diary/ui/index/index.dart';
+import 'package:diary/ui/write_new/write_new.dart';
 import 'package:diary/util/shared_pref_util.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,7 +62,7 @@ class _DiaryState extends State<Diary> {
   @override
   void initState() {
     super.initState();
-
+    // 加载完成进行配置
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // 未进行资料设置，跳转到相应页面进行
       _jumpToAppConfig();
@@ -74,7 +76,8 @@ class _DiaryState extends State<Diary> {
     username = await SharedPrefUtil.instance.readUsername();
     if(username == null || username == "") {
       // 导航到资料填写页面
-      router.navigateTo(context, Routes.appConfigurationPage, clearStack: true);
+      // router.navigateTo(context, Routes.appConfigurationPage, clearStack: true);
+      _changePage(2);
     } else {
       // 展示弹出框
       showCupertinoDialog(
@@ -97,9 +100,58 @@ class _DiaryState extends State<Diary> {
     }
   }
 
+  // 底部标签索引
+  int _currentTab = 0;
+
+  // 底部标签页面列表
+  static const List<Widget> _tabPages = [
+    IndexPage(),
+    WriteNewPage(id: '-1'),
+    AppConfigurationPage(),
+  ];
+
+  // 底部标签按钮
+  static const List<BottomNavigationBarItem> _bottomNavBarItem = [
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.home),
+      label: '首页',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.add),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.settings),
+      label: '设置',
+    ),
+  ];
+
+  // 切换页面
+  void _changePage(int index) {
+    setState(() {
+      _currentTab = index;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return const IndexPage();
+    return CupertinoTabScaffold(
+        tabBar: CupertinoTabBar(
+          // 底部按钮
+          items: _bottomNavBarItem,
+          // 当前页
+          currentIndex: _currentTab,
+          // 点击触发
+          onTap: _changePage,
+        ),
+        tabBuilder: (BuildContext context, int index) {
+          return CupertinoTabView(
+            builder: (BuildContext context) {
+              return _tabPages[_currentTab];
+            },
+          );
+        }
+    );
   }
 
 }

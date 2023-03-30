@@ -1,3 +1,4 @@
+import 'package:diary/main.dart';
 import 'package:diary/ui/app_configuration/app_configuration.dart';
 import 'package:diary/ui/default/default_page.dart';
 import 'package:diary/ui/index/index.dart';
@@ -17,7 +18,7 @@ Handler appConfigurationHandler = Handler(
 
 // 主页面
 Handler indexHandler = Handler(
-    handlerFunc: (BuildContext? context, Map<String, List<String>> params) => const IndexPage(),
+    handlerFunc: (BuildContext? context, Map<String, List<String>> params) => const Diary(),
 );
 
 //写日记

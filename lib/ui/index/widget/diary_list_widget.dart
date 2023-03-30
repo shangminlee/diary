@@ -5,7 +5,7 @@ import '../../index/widget/item_single_diary_widget.dart';
 
 class DiaryListWidget {
   // 全部日记列表
-  static Widget diaryList(List<Diary> allDiary) {
+  static Widget diaryList(List<DiaryEntity> allDiary) {
     // 查询的日志猎豹是否为空
     if (allDiary == [] || allDiary.isEmpty) {
       return Container(

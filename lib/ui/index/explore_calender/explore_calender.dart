@@ -14,9 +14,9 @@ class ExploreCalenderPage extends StatefulWidget {
 
 class _ExploreCalenderPageState extends State<ExploreCalenderPage> {
   List<Map<String, Object?>> allDiaryRow = [];
-  List<Diary> allDiary = [];
+  List<DiaryEntity> allDiary = [];
   List<Map<String, Object?>> allDiaryMonthlyRow = [];
-  List<Diary> allDiaryMonthly = [];
+  List<DiaryEntity> allDiaryMonthly = [];
   DateTime selectedDate = DateTime.now();
   Set<DateTime> markedDates = {};
 
@@ -41,14 +41,14 @@ class _ExploreCalenderPageState extends State<ExploreCalenderPage> {
     allDiary.clear();
     if (allDiaryRow.isNotEmpty) {
       for (int i = 0; i < allDiaryRow.length; i++) {
-        allDiary.add(Diary().fromMap(allDiaryRow[i]));
+        allDiary.add(DiaryEntity().fromMap(allDiaryRow[i]));
       }
     }
     // 读取当月的日记
     allDiaryMonthlyRow = await DatabaseUtil.instance.queryByMonth(selectedDate);
     if (allDiaryMonthlyRow.isNotEmpty) {
       for (int i = 0; i < allDiaryMonthlyRow.length; i++) {
-        Diary singleDiary = Diary().fromMap(allDiaryMonthlyRow[i]);
+        DiaryEntity singleDiary = DiaryEntity().fromMap(allDiaryMonthlyRow[i]);
         markedDates.add(DateTime(singleDiary.date.year, singleDiary.date.month,
             singleDiary.date.day));
       }

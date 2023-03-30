@@ -12,7 +12,7 @@ import '../../../util/eventbus_util.dart';
 class ReadDiaryDialog extends StatefulWidget {
   const ReadDiaryDialog({Key? key, required this.diary}) : super(key: key);
 
-  final Diary diary;
+  final DiaryEntity diary;
 
   @override
   State<StatefulWidget> createState() => _ReadDiaryDialogState();

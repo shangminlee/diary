@@ -48,7 +48,7 @@ class _WriteNewPageState extends State<WriteNewPage> {
   // 保存日记
   void saveDiary() async {
     await DatabaseUtil.instance.openDb();
-    Diary singleDiary = Diary();
+    DiaryEntity singleDiary = DiaryEntity();
     singleDiary.title = titleInputController.text;
     singleDiary.image = image != null ? image!.path : '';
     singleDiary.content = contentInputController.text;
@@ -71,7 +71,7 @@ class _WriteNewPageState extends State<WriteNewPage> {
   void recoverDiary(int id) async {
     List<Map<String, Object?>> uniqueDiaryRow = await DatabaseUtil.instance.queryById(id);
     if (uniqueDiaryRow.isNotEmpty) {
-      Diary uniqueDiary = Diary();
+      DiaryEntity uniqueDiary = DiaryEntity();
       uniqueDiary.fromMap(uniqueDiaryRow[0]);
       titleInputController.text = uniqueDiary.title;
       textRightToLeft = uniqueDiary.textRightToLeft;
@@ -247,7 +247,8 @@ class _WriteNewPageState extends State<WriteNewPage> {
             style: TextStyle(color: CupertinoColors.label),
           ),
           onPressed: () {
-            router.navigateTo(context, Routes.indexPage, rootNavigator: true);
+            //router.navigateTo(context, Routes.indexPage, rootNavigator: true);
+            Navigator.pushNamed(context, '/?index=2');
           },
         ),
       ),
