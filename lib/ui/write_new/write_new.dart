@@ -25,6 +25,7 @@ class WriteNewPage extends StatefulWidget {
 }
 
 class _WriteNewPageState extends State<WriteNewPage> {
+
   // 标题输入项控制器
   TextEditingController titleInputController = TextEditingController();
 
@@ -65,6 +66,19 @@ class _WriteNewPageState extends State<WriteNewPage> {
       await DatabaseUtil.instance.update(singleDiary);
     }
     eventBus.fire(DiaryListChanged());
+    showCupertinoModalPopup(context: context, builder: (context) {
+      return CupertinoAlertDialog(
+        content: const Text("保存成功"),
+        actions: [
+          CupertinoDialogAction(
+            child: const Text("确定"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      );
+    });
   }
 
   // 恢复数据
@@ -238,20 +252,6 @@ class _WriteNewPageState extends State<WriteNewPage> {
   // 顶部导航栏
   CupertinoNavigationBar topNavigationBar() {
     return CupertinoNavigationBar(
-      leading: SizedBox(
-        width: 40,
-        child: CupertinoButton(
-          padding: const EdgeInsets.all(0),
-          child: const Text(
-            '取消',
-            style: TextStyle(color: CupertinoColors.label),
-          ),
-          onPressed: () {
-            //router.navigateTo(context, Routes.indexPage, rootNavigator: true);
-            Navigator.pushNamed(context, '/?index=2');
-          },
-        ),
-      ),
       middle: CupertinoTextField(
         controller: titleInputController,
         textAlign: TextAlign.center,

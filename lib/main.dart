@@ -2,6 +2,7 @@ import 'package:diary/router/routes.dart';
 import 'package:diary/ui/app_configuration/app_configuration.dart';
 import 'package:diary/ui/index/index.dart';
 import 'package:diary/ui/write_new/write_new.dart';
+import 'package:diary/util/log_util.dart';
 import 'package:diary/util/shared_pref_util.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,6 +60,8 @@ class _DiaryState extends State<Diary> {
 
   String? username;
 
+  late CupertinoTabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +70,7 @@ class _DiaryState extends State<Diary> {
       // 未进行资料设置，跳转到相应页面进行
       _jumpToAppConfig();
     });
+    _tabController = CupertinoTabController(initialIndex: 0);
   }
 
   // 跳转到
@@ -110,6 +114,13 @@ class _DiaryState extends State<Diary> {
     AppConfigurationPage(),
   ];
 
+  // 缓存KEY
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+  ];
+
   // 底部标签按钮
   static const List<BottomNavigationBarItem> _bottomNavBarItem = [
     BottomNavigationBarItem(
@@ -127,11 +138,13 @@ class _DiaryState extends State<Diary> {
 
   // 切换页面
   void _changePage(int index) {
-    setState(() {
-      _currentTab = index;
-    });
+    if(_tabController.index != index) {
+      Log.i('切换页面方法');
+      setState(() {
+        _currentTab = index;
+      });
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +159,9 @@ class _DiaryState extends State<Diary> {
         ),
         tabBuilder: (BuildContext context, int index) {
           return CupertinoTabView(
+            navigatorKey: _navigatorKeys[index],
             builder: (BuildContext context) {
+              Log.i('开始【切换】页面..');
               return _tabPages[_currentTab];
             },
           );
@@ -154,4 +169,9 @@ class _DiaryState extends State<Diary> {
     );
   }
 
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 }

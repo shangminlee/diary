@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../router/routes.dart';
+import '../../util/log_util.dart';
 
 // app 配置页面
 class AppConfigurationPage extends StatefulWidget {
@@ -20,6 +21,8 @@ class AppConfigurationPage extends StatefulWidget {
 
 // app 配置页面 状态页面
 class _AppConfigurationPageState extends State<AppConfigurationPage> {
+
+
 
   // 资料填写区域控制器
   final TextEditingController _nameInputController = TextEditingController();
@@ -108,4 +111,15 @@ class _AppConfigurationPageState extends State<AppConfigurationPage> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    Log.d('用户信息页面【初始化】..');
+  }
+
+  @override
+  void dispose() {
+    Log.d('用户信息页面【销毁】..');
+    super.dispose();
+  }
 }

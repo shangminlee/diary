@@ -31,6 +31,12 @@ class _IndexPageState extends State<IndexPage> {
     };
   }
 
+  // 顶部标签页页面
+  static const List<Widget> _tabPages = [
+    ExploreAllPage(),
+    ExploreCalenderPage(),
+  ];
+
   // 构建顶部标签
   Widget _buildPageScaffold() {
     return CupertinoPageScaffold(
@@ -46,7 +52,7 @@ class _IndexPageState extends State<IndexPage> {
         ),
       ),
       child: Container(
-        child: _currentPage == 0? const ExploreAllPage() : const ExploreCalenderPage(),
+        child: _tabPages[_currentPage],
       ),
     );
   }
