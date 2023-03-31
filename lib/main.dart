@@ -60,8 +60,6 @@ class _DiaryState extends State<Diary> {
 
   String? username;
 
-  late CupertinoTabController _tabController;
-
   @override
   void initState() {
     super.initState();
@@ -70,7 +68,6 @@ class _DiaryState extends State<Diary> {
       // 未进行资料设置，跳转到相应页面进行
       _jumpToAppConfig();
     });
-    _tabController = CupertinoTabController(initialIndex: 0);
   }
 
   // 跳转到
@@ -138,12 +135,10 @@ class _DiaryState extends State<Diary> {
 
   // 切换页面
   void _changePage(int index) {
-    if(_tabController.index != index) {
-      Log.i('切换页面方法');
-      setState(() {
-        _currentTab = index;
-      });
-    }
+    Log.i('切换页面方法');
+    setState(() {
+      _currentTab = index;
+    });
   }
 
   @override
@@ -171,7 +166,6 @@ class _DiaryState extends State<Diary> {
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 }
